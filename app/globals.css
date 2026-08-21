@@ -39,9 +39,9 @@ a {
 }
 
 main {
-  width: min(720px, calc(100% - 32px));
+  width: min(var(--measure), calc(100% - 2 * var(--space-2)));
   margin: 0 auto;
-  padding: 32px 0 80px;
+  padding: var(--space-3) 0 var(--space-4);
 }
 
 .site-header {
@@ -86,7 +86,8 @@ h1,
 h2,
 h3 {
   margin: 0 0 var(--space-1);
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-weight: 400;
 }
 
 .lede {
@@ -235,4 +236,27 @@ button:disabled {
 .rules ol {
   padding-left: 20px;
   line-height: 1.55;
+}
+
+.faq {
+  margin-top: var(--space-3);
+}
+
+.faq dl {
+  margin: 0;
+}
+
+.faq dt {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  margin-top: var(--space-2);
+}
+
+.faq dt:first-child {
+  margin-top: 0;
+}
+
+.faq dd {
+  margin: var(--space-1) 0 0;
+  color: var(--muted);
 }
