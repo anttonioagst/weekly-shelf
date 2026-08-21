@@ -39,5 +39,5 @@ export function PaidReturn() {
   }, [checkoutId, router]);
 
   if (!checkoutId && !note) return null;
-  return note ? <p className="meta">{note}</p> : null;
+  return note ? <p className="meta paid-note">{note}</p> : null;
 }
