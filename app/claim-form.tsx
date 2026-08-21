@@ -1,7 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { ListingPreview } from "@/lib/types";
+import type { ListingPreview, ListingType } from "@/lib/types";
+
+const URL_ERROR = "Use a live App Store, Play Store, or website URL.";
+const CHECKOUT_ERROR = "Checkout is not open yet.";
+const POLAR_ERROR =
+  "Polar refused this listing. We will not switch providers.";
+
+function previewTypeLabel(type: ListingType): string {
+  if (type === "ios") return "iOS";
+  if (type === "android") return "Android";
+  return "Site";
+}
+
+function mapCheckoutError(status: number, data: { error?: string; polar?: string }): string {
+  if (status === 503 || data.polar) return POLAR_ERROR;
+  if (status === 502 || status >= 500) return CHECKOUT_ERROR;
+  return CHECKOUT_ERROR;
+}
 
 export function ClaimForm({ priceDollars }: { priceDollars: number }) {
   const [url, setUrl] = useState("");
@@ -24,7 +41,7 @@ export function ClaimForm({ priceDollars }: { priceDollars: number }) {
       const data = await response.json();
       if (!response.ok) {
         setPreview(null);
-        setError(data.error ?? "Could not read that URL.");
+        setError(URL_ERROR);
         return;
       }
       setError(null);
@@ -45,12 +62,12 @@ export function ClaimForm({ priceDollars }: { priceDollars: number }) {
       });
       const data = await response.json();
       if (!response.ok) {
-        setError(data.error ?? "Checkout failed.");
+        setError(mapCheckoutError(response.status, data));
         return;
       }
       window.location.href = data.checkoutUrl;
     } catch {
-      setError("Checkout failed.");
+      setError(CHECKOUT_ERROR);
     } finally {
       setBusy(false);
     }
@@ -58,12 +75,9 @@ export function ClaimForm({ priceDollars }: { priceDollars: number }) {
 
   return (
     <form className="form-box" onSubmit={onSubmit}>
-      <h2>One field</h2>
-      <p className="meta">
-        App Store, Play Store, or website URL. Polar checkout. Price held 30
-        minutes.
-      </p>
+      <label htmlFor="listing-url">App Store, Play Store, or site URL</label>
       <input
+        id="listing-url"
         type="url"
         required
         placeholder="https://"
@@ -75,21 +89,14 @@ export function ClaimForm({ priceDollars }: { priceDollars: number }) {
           {preview.iconUrl ? (
             <img src={preview.iconUrl} alt="" width={48} height={48} />
           ) : null}
-          <div>
-            <strong>{preview.name}</strong>
-            <div className="meta">
-              {preview.type === "ios"
-                ? "App Store"
-                : preview.type === "android"
-                  ? "Play Store"
-                  : "Site"}
-            </div>
+          <div className="meta">
+            {preview.name} · {previewTypeLabel(preview.type)}
           </div>
         </div>
       ) : null}
       {error ? <p className="error">{error}</p> : null}
       <button type="submit" disabled={busy || !preview}>
-        {busy ? "Opening Polar…" : `Pay $${priceDollars} — go to #1`}
+        Take #1 for ${priceDollars}
       </button>
     </form>
   );

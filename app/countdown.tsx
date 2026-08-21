@@ -26,8 +26,8 @@ export function Countdown({ nextMondayIso }: { nextMondayIso: string }) {
   }, [target]);
 
   return (
-    <p className="meta">
-      Monday 00:00 UTC reset in {label}
+    <p className="countdown">
+      Empties in {label}
     </p>
   );
 }

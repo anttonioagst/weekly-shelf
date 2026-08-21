@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Rules — Weekly shelf",
@@ -8,6 +9,9 @@ export default function RulesPage() {
   return (
     <article className="rules">
       <h1>Rules</h1>
+      <p className="lede">
+        How the shelf works. Nothing here is a traffic promise.
+      </p>
       <ol>
         <li>
           The week starts Monday 00:00 UTC. The first move is $1. Every
@@ -35,6 +39,37 @@ export default function RulesPage() {
           TestFlight-only builds and chat invites are out.
         </li>
       </ol>
+      <section className="faq">
+        <h2>FAQ</h2>
+        <dl>
+          <dt>What do I get?</dt>
+          <dd>
+            The #1 row, a link out, and a screenshot. That is the whole
+            purchase.
+          </dd>
+          <dt>Can someone take my spot?</dt>
+          <dd>
+            Yes. They pay $1 more. Latest completed payment is #1.
+          </dd>
+          <dt>What if two people pay the same held price?</dt>
+          <dd>
+            Both payments count. Latest confirmation is #1. The next new price
+            jumps by $2.
+          </dd>
+          <dt>Do refunds drop the price?</dt>
+          <dd>
+            No. The move comes off the shelf. The price never goes backwards.
+          </dd>
+          <dt>Why Polar?</dt>
+          <dd>
+            Polar is the merchant. If they refuse this product, the shelf stops.
+            We will not add another payer.
+          </dd>
+        </dl>
+      </section>
+      <p>
+        <Link href="/">Back home</Link>
+      </p>
     </article>
   );
 }
