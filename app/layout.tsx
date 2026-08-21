@@ -1,27 +1,13 @@
 import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { Nunito } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const nunito = Nunito({
   subsets: ["latin"],
-  weight: ["400", "600"],
+  weight: ["500", "600", "700", "800"],
   display: "swap",
-  variable: "--font-fraunces",
-});
-
-const plexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-  variable: "--font-plex-sans",
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-  variable: "--font-plex-mono",
+  variable: "--font-nunito",
 });
 
 export const metadata: Metadata = {
@@ -36,10 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="en"
-      className={`${fraunces.variable} ${plexSans.variable} ${plexMono.variable}`}
-    >
+    <html lang="en" className={nunito.variable}>
       <body>
         <main>
           <header className="site-header">

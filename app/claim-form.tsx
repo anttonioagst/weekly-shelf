@@ -74,16 +74,23 @@ export function ClaimForm({ priceDollars }: { priceDollars: number }) {
   }
 
   return (
-    <form className="form-box" onSubmit={onSubmit}>
-      <label htmlFor="listing-url">App Store, Play Store, or site URL</label>
-      <input
-        id="listing-url"
-        type="url"
-        required
-        placeholder="https://"
-        value={url}
-        onChange={(event) => setUrl(event.target.value)}
-      />
+    <form className="claim-form" onSubmit={onSubmit}>
+      <label htmlFor="listing-url" className="sr-only">
+        App Store, Play Store, or site URL
+      </label>
+      <div className="claim-row">
+        <input
+          id="listing-url"
+          type="url"
+          required
+          placeholder="https://"
+          value={url}
+          onChange={(event) => setUrl(event.target.value)}
+        />
+        <button type="submit" disabled={busy || !preview}>
+          Take #1 for ${priceDollars}
+        </button>
+      </div>
       {preview ? (
         <div className="preview">
           {preview.iconUrl ? (
@@ -95,9 +102,6 @@ export function ClaimForm({ priceDollars }: { priceDollars: number }) {
         </div>
       ) : null}
       {error ? <p className="error">{error}</p> : null}
-      <button type="submit" disabled={busy || !preview}>
-        Take #1 for ${priceDollars}
-      </button>
     </form>
   );
 }
