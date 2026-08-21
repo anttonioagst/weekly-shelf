@@ -132,14 +132,26 @@ form {
   gap: 12px;
 }
 
+form label {
+  font-family: var(--font-ui);
+  font-size: 14px;
+}
+
 input[type="url"],
 input[type="text"] {
   width: 100%;
   padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: var(--radius-control);
-  font: inherit;
+  font-family: var(--font-ui);
+  font-size: 16px;
   background: var(--card);
+}
+
+input[type="url"]:focus,
+input[type="text"]:focus {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
 }
 
 button,
@@ -150,9 +162,16 @@ button,
   background: var(--accent);
   color: var(--accent-ink);
   padding: 12px var(--space-2);
+  min-height: 44px;
   font-family: var(--font-ui);
   font-size: 15px;
   cursor: pointer;
+}
+
+button:focus-visible,
+.button:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
 }
 
 button:disabled {
