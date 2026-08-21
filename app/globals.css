@@ -73,6 +73,15 @@ main {
   text-decoration: none;
 }
 
+.site-footer {
+  margin-top: var(--space-4);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  color: var(--muted);
+  font-size: 14px;
+}
+
 h1,
 h2,
 h3 {

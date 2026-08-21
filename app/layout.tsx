@@ -51,6 +51,9 @@ export default function RootLayout({
             </nav>
           </header>
           {children}
+          <footer className="site-footer">
+            Checkout by Polar. No traffic guaranteed.
+          </footer>
         </main>
       </body>
     </html>
