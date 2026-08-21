@@ -26,13 +26,12 @@ export default function HomePage() {
         <p className="price">${snap.priceDollars}</p>
         <p className="meta">one payment · ${snap.priceDollars} = $1 + {snap.moveCount} moves</p>
         <Countdown nextMondayIso={snap.nextMondayIso} />
+        <ClaimForm priceDollars={snap.priceDollars} />
       </section>
 
       <Suspense>
         <PaidReturn />
       </Suspense>
-
-      <ClaimForm priceDollars={snap.priceDollars} />
 
       <section className="shelf">
         <h2>This week</h2>
