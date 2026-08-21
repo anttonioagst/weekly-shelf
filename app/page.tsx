@@ -34,7 +34,12 @@ export default function HomePage() {
       </Suspense>
 
       <section className="shelf">
-        <h2>This week</h2>
+        <div className="shelf-head">
+          <h2>This week</h2>
+          {snap.rows.length > 0 ? (
+            <span className="shelf-count">{snap.rows.length} apps</span>
+          ) : null}
+        </div>
         {lead?.screenshotUrl ? (
           <div className="lead-shot">
             <img src={lead.screenshotUrl} alt="" />
@@ -46,10 +51,15 @@ export default function HomePage() {
           </p>
         ) : (
           snap.rows.map((row) => (
-            <a key={row.identityKey} className="row" href={row.url} rel="noreferrer">
+            <a
+              key={row.identityKey}
+              className={row.rank === 1 ? "row row-lead" : "row"}
+              href={row.url}
+              rel="noreferrer"
+            >
               <span className="rank">{row.rank}</span>
               {row.iconUrl ? (
-                <img src={row.iconUrl} alt="" width={56} height={56} />
+                <img src={row.iconUrl} alt="" width={58} height={58} />
               ) : (
                 <span />
               )}

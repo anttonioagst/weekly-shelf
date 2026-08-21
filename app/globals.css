@@ -219,10 +219,48 @@ h3 {
 .shelf,
 .rules {
   background: var(--card);
-  border: 1px solid var(--line);
+  border: none;
   border-radius: var(--radius-card);
-  padding: calc(var(--space) * 5);
+  box-shadow: var(--shadow-card);
+  padding: calc(var(--space) * 6);
   margin: calc(var(--space) * 5) 0;
+}
+
+.shelf-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: calc(var(--space) * 2);
+}
+
+.shelf-head h2 {
+  margin: 0;
+}
+
+.shelf-count {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.row-lead {
+  background: var(--fg);
+  color: var(--accent-ink);
+  border-radius: var(--radius-card);
+  margin: calc(var(--space) * 2) calc(var(--space) * -4);
+  padding: calc(var(--space) * 4);
+  border-top: 0;
+}
+
+.row-lead .meta {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.row img {
+  width: 58px;
+  height: 58px;
+  border-radius: var(--radius-icon);
+  box-shadow: var(--shadow-icon);
 }
 
 .price {
