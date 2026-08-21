@@ -13,10 +13,10 @@ export default function HomePage() {
 
   return (
     <>
+      <h1>Pay the current price. Take #1 this week.</h1>
       <p className="lede">
-        Whoever pays the current price goes to #1 this week. The next move
-        costs $1 more. Monday 00:00 UTC empties the shelf. No clicks, SEO, or
-        installs are guaranteed.
+        The next move costs $1 more. Monday 00:00 UTC the shelf is empty. You
+        are not buying clicks, SEO, or installs.
       </p>
 
       <section className="price-box">
