@@ -1,0 +1,30 @@
+{
+  "name": "weekly-shelf",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "tsx --test lib/*.test.ts",
+    "setup:polar": "tsx scripts/setup-polar.ts"
+  },
+  "dependencies": {
+    "@polar-sh/nextjs": "^0.7.0",
+    "@polar-sh/sdk": "^0.42.0",
+    "next": "^15.5.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.1",
+    "@types/node": "^22.17.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "eslint": "^9.33.0",
+    "eslint-config-next": "^15.5.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
+  }
+}
