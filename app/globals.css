@@ -101,6 +101,23 @@ h3 {
   font-weight: 500;
 }
 
+.hero {
+  text-align: center;
+  margin-bottom: calc(var(--space) * 6);
+}
+
+.hero h1 {
+  font-weight: 800;
+  font-size: clamp(28px, 5vw, 40px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.hero .lede {
+  max-width: 540px;
+  margin: calc(var(--space) * 3) auto 0;
+}
+
 .price-box,
 .form-box,
 .shelf,
