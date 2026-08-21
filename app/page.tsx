@@ -9,7 +9,6 @@ export const dynamic = "force-dynamic";
 
 export default function HomePage() {
   const snap = currentWeekSnapshot();
-  const lead = snap.rows[0];
 
   return (
     <>
@@ -34,11 +33,6 @@ export default function HomePage() {
 
       <section className="shelf">
         <h2>This week</h2>
-        {lead?.screenshotUrl ? (
-          <div className="lead-shot">
-            <img src={lead.screenshotUrl} alt="" />
-          </div>
-        ) : null}
         {snap.rows.length === 0 ? (
           <p className="empty">
             The shelf is empty. First move is $1.
@@ -47,8 +41,14 @@ export default function HomePage() {
           snap.rows.map((row) => (
             <a key={row.identityKey} className="row" href={row.url} rel="noreferrer">
               <span className="rank">{row.rank}</span>
-              {row.iconUrl ? (
-                <img src={row.iconUrl} alt="" width={56} height={56} />
+              {row.screenshotUrl ? (
+                <img
+                  className="shot"
+                  src={row.screenshotUrl}
+                  alt=""
+                  width={56}
+                  height={56}
+                />
               ) : (
                 <span />
               )}
@@ -58,7 +58,7 @@ export default function HomePage() {
                   {typeLabel(row.type)} · ${row.lastAmountCents / 100} move
                 </div>
               </span>
-              <span className="meta">open</span>
+              <span className="meta">Open</span>
             </a>
           ))
         )}

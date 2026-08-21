@@ -214,8 +214,9 @@ button:disabled {
 }
 
 .rank {
-  font-family: var(--font-ui);
+  font-family: var(--font-mono);
   font-size: 20px;
+  font-variant-numeric: tabular-nums;
 }
 
 .empty {
@@ -225,14 +226,4 @@ button:disabled {
 .rules ol {
   padding-left: 20px;
   line-height: 1.55;
-}
-
-.lead-shot {
-  margin: 0 0 var(--space-2);
-}
-
-.lead-shot img {
-  width: 100%;
-  max-height: 280px;
-  object-fit: cover;
 }
