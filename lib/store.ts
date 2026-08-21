@@ -6,13 +6,21 @@ import { emptyBoard, type WeekBoard } from "./fulfill";
 let db: DatabaseSync | null = null;
 
 function dataDir(): string {
-  return process.env.SHELF_DATA_DIR ?? path.join(process.cwd(), "data");
+  if (process.env.SHELF_DATA_DIR) return process.env.SHELF_DATA_DIR;
+  if (process.env.VERCEL) return "/tmp";
+  return path.join(process.cwd(), "data");
+}
+
+function dbPath(): string {
+  if (process.env.SHELF_DB) return process.env.SHELF_DB;
+  return path.join(dataDir(), "shelf.sqlite");
 }
 
 function getDb(): DatabaseSync {
   if (db) return db;
-  mkdirSync(dataDir(), { recursive: true });
-  db = new DatabaseSync(path.join(dataDir(), "shelf.sqlite"));
+  const file = dbPath();
+  mkdirSync(path.dirname(file), { recursive: true });
+  db = new DatabaseSync(file);
   db.exec(`
     CREATE TABLE IF NOT EXISTS weeks (
       week_id TEXT PRIMARY KEY,
