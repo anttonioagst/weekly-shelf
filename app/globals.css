@@ -75,6 +75,7 @@ main {
 
 .site-header nav a {
   text-decoration: none;
+  color: var(--fg);
 }
 
 .site-footer {
