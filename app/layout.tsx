@@ -42,10 +42,11 @@ export default function RootLayout({
     >
       <body>
         <main>
-          <header>
-            <strong>Weekly shelf</strong>
+          <header className="site-header">
+            <Link href="/" className="wordmark">
+              Weekly shelf
+            </Link>
             <nav>
-              <Link href="/">Home</Link>
               <Link href="/rules">Rules</Link>
             </nav>
           </header>
