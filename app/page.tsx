@@ -20,7 +20,7 @@ export default function HomePage() {
       </p>
 
       <section className="price-box">
-        <p className="meta">Current price</p>
+        <p className="kicker">Current price</p>
         <p className="price">${snap.priceDollars}</p>
         <p className="meta">one payment · ${snap.priceDollars} = $1 + {snap.moveCount} moves</p>
         <Countdown nextMondayIso={snap.nextMondayIso} />

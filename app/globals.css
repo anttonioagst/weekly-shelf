@@ -98,15 +98,33 @@ h3 {
 }
 
 .price {
+  font-family: var(--font-display);
+  font-weight: 600;
   font-size: 56px;
   line-height: 1;
   letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0 0 var(--space-1);
 }
 
 .meta {
-  font-family: var(--font-ui);
+  font-family: var(--font-mono);
   color: var(--muted);
   font-size: 14px;
+}
+
+.countdown {
+  font-family: var(--font-mono);
+  color: var(--muted);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  margin: var(--space-1) 0 0;
 }
 
 form {
