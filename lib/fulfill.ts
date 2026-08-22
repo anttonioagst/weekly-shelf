@@ -1,4 +1,10 @@
-import type { CheckoutHold, ListingType, PaidMove, ShelfRow } from "./types";
+import type {
+  ActivityItem,
+  CheckoutHold,
+  ListingType,
+  PaidMove,
+  ShelfRow,
+} from "./types";
 import { isHoldValid, weekIdAt } from "./week";
 
 export type ListingRecord = {
@@ -122,6 +128,33 @@ export function refundOrder(
     };
   }
   return next;
+}
+
+export function recentActivity(board: WeekBoard, limit = 8): ActivityItem[] {
+  const ranks = new Map(
+    shelfRows(board).map((row) => [row.identityKey, row] as const),
+  );
+  return Object.values(board.moves)
+    .filter((move) => !move.refunded)
+    .sort((a, b) => b.paidAt.localeCompare(a.paidAt))
+    .slice(0, limit)
+    .flatMap((move) => {
+      const row = ranks.get(move.identityKey);
+      const listing = board.listings[move.identityKey];
+      if (!row || !listing) return [];
+      return [
+        {
+          identityKey: move.identityKey,
+          name: listing.name,
+          url: listing.url,
+          iconUrl: listing.iconUrl,
+          type: listing.type,
+          rank: row.rank,
+          amountCents: move.amountCents,
+          paidAt: move.paidAt,
+        },
+      ];
+    });
 }
 
 export function shelfRows(board: WeekBoard): ShelfRow[] {
