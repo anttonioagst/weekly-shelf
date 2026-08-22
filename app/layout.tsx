@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import Link from "next/link";
+import { VisitorCount } from "./visitor-count";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -29,9 +30,12 @@ export default function RootLayout({
             <Link href="/" className="wordmark">
               Weekly shelf
             </Link>
-            <nav>
-              <Link href="/rules">Rules</Link>
-            </nav>
+            <div className="header-end">
+              <VisitorCount />
+              <nav>
+                <Link href="/rules">Rules</Link>
+              </nav>
+            </div>
           </header>
           {children}
           <footer className="site-footer">

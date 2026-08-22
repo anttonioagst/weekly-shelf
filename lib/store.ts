@@ -26,8 +26,38 @@ function getDb(): DatabaseSync {
       week_id TEXT PRIMARY KEY,
       board_json TEXT NOT NULL
     );
+    CREATE TABLE IF NOT EXISTS visits (
+      visitor_key TEXT NOT NULL,
+      seen_at TEXT NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS visits_seen_at ON visits(seen_at);
   `);
   return db;
+}
+
+const VISIT_WINDOW_MS = 12 * 60 * 60 * 1000;
+
+export function recordVisit(visitorKey: string, now = new Date()): void {
+  const since = new Date(now.getTime() - VISIT_WINDOW_MS).toISOString();
+  const database = getDb();
+  const seen = database
+    .prepare(
+      "SELECT 1 AS ok FROM visits WHERE visitor_key = ? AND seen_at >= ? LIMIT 1",
+    )
+    .get(visitorKey, since) as { ok: number } | undefined;
+  if (seen) return;
+  database
+    .prepare("INSERT INTO visits (visitor_key, seen_at) VALUES (?, ?)")
+    .run(visitorKey, now.toISOString());
+  database.prepare("DELETE FROM visits WHERE seen_at < ?").run(since);
+}
+
+export function countVisitsLast12h(now = new Date()): number {
+  const since = new Date(now.getTime() - VISIT_WINDOW_MS).toISOString();
+  const row = getDb()
+    .prepare("SELECT COUNT(*) AS n FROM visits WHERE seen_at >= ?")
+    .get(since) as { n: number };
+  return row.n;
 }
 
 export function loadBoard(weekId: string): WeekBoard {
