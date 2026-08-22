@@ -95,6 +95,7 @@ export async function POST(request: Request) {
     type: preview.type,
     url: preview.url,
     name: preview.name,
+    blurb: preview.blurb,
     iconUrl: preview.iconUrl,
     screenshotUrl: preview.screenshotUrl,
     quotedCents,

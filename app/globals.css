@@ -157,6 +157,41 @@ main {
   border-radius: var(--radius-price);
   box-shadow: var(--shadow-price);
   padding: calc(var(--space) * 5);
+  display: grid;
+  gap: calc(var(--space) * 4);
+}
+
+.composer-price .kicker {
+  color: var(--on-dark-muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: calc(var(--space) * 1);
+}
+
+.composer-price-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: calc(var(--space) * 2) calc(var(--space) * 3);
+}
+
+.composer-price .price {
+  font-weight: 800;
+  font-size: clamp(36px, 8vw, 48px);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.composer-price .meta {
+  color: var(--on-dark-muted);
+}
+
+.composer .countdown {
+  color: var(--on-dark-muted);
+  margin: 0;
 }
 
 .claim-form {
@@ -205,10 +240,22 @@ main {
 
 .preview {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: calc(var(--space) * 3);
   padding-top: calc(var(--space) * 3);
   border-top: 1px solid var(--on-dark-line);
+}
+
+.preview-copy {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.preview .meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .preview img {
@@ -235,6 +282,10 @@ main {
   .claim-row button {
     width: 100%;
   }
+
+  .row .blurb {
+    display: none;
+  }
 }
 
 @media (min-width: 720px) {
@@ -244,42 +295,24 @@ main {
 }
 
 /* ------------------------------------------------------------------
-   Composer meta — price + reset countdown as compact helper lines
+   Composer helpers — Outbid-style lines under the claim control
 ------------------------------------------------------------------ */
-.composer-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: calc(var(--space) * 1) calc(var(--space) * 3);
+.composer-helpers {
+  display: grid;
+  gap: calc(var(--space) * 1);
   margin: calc(var(--space) * 3) calc(var(--space) * 2) 0;
 }
 
-.composer-meta .kicker {
-  color: var(--muted);
+.composer-helpers .meta {
   font-size: 13px;
-  font-weight: 600;
-}
-
-.composer-meta .price {
-  font-weight: 800;
-  font-size: 18px;
-  letter-spacing: -0.01em;
-  font-variant-numeric: tabular-nums;
-}
-
-.composer-meta .meta {
-  font-size: 13px;
-}
-
-.composer-meta .countdown {
-  margin-left: auto;
-  font-size: 13px;
+  line-height: 1.45;
 }
 
 .countdown {
   color: var(--muted);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
+  font-size: 13px;
 }
 
 .paid-note {
@@ -361,7 +394,7 @@ main {
 .featured-line {
   display: grid;
   grid-template-columns: auto 64px minmax(0, 1fr) auto;
-  align-items: center;
+  align-items: start;
   gap: calc(var(--space) * 3);
 }
 
@@ -393,20 +426,26 @@ img.featured-icon {
   gap: 2px;
 }
 
-.featured-text strong {
-  font-size: 17px;
-  font-weight: 800;
+.featured-text strong,
+.row-text strong {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.featured-text strong {
+  font-size: 17px;
+  font-weight: 800;
+}
+
 .featured .meta {
   color: var(--on-dark-muted);
   font-size: 13px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.featured .blurb {
+  color: var(--on-dark-muted);
+  -webkit-line-clamp: 2;
 }
 
 .featured .open {
@@ -465,16 +504,46 @@ img.featured-icon {
 .row-text strong {
   font-size: 15px;
   font-weight: 700;
+}
+
+.row .meta {
+  font-size: 13px;
+}
+
+.row-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.row .meta {
+.blurb {
   font-size: 13px;
-  white-space: nowrap;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+.type-glyph {
+  flex: 0 0 auto;
+  color: currentColor;
+}
+
+.band-mark {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: calc(var(--space) * 3) calc(var(--space) * 2) calc(var(--space) * 1);
+}
+
+.band-mark + .row {
+  border-top: 0;
 }
 
 .row .open {

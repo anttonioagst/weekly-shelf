@@ -8,6 +8,7 @@ export type ParsedInput = {
 
 export type ListingPreview = ParsedInput & {
   name: string;
+  blurb: string | null;
   iconUrl: string | null;
   screenshotUrl: string | null;
 };
@@ -18,6 +19,7 @@ export type ShelfRow = {
   type: ListingType;
   url: string;
   name: string;
+  blurb: string | null;
   iconUrl: string | null;
   screenshotUrl: string | null;
   lastPaidAt: string;
@@ -31,6 +33,7 @@ export type CheckoutHold = {
   type: ListingType;
   url: string;
   name: string;
+  blurb?: string | null;
   iconUrl: string | null;
   screenshotUrl: string | null;
   quotedCents: number;
