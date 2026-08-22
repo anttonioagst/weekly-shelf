@@ -1,4 +1,4 @@
-import { shelfRows, type WeekBoard } from "./fulfill";
+import { recentActivity, shelfRows, type WeekBoard } from "./fulfill";
 import { loadBoard } from "./store";
 import { nextMondayUtc, priceCents, priceDollars, weekIdAt } from "./week";
 
@@ -9,6 +9,7 @@ export function currentWeekSnapshot(now = new Date()): {
   priceCents: number;
   nextMondayIso: string;
   rows: ReturnType<typeof shelfRows>;
+  activity: ReturnType<typeof recentActivity>;
   board: WeekBoard;
 } {
   const weekId = weekIdAt(now);
@@ -20,6 +21,7 @@ export function currentWeekSnapshot(now = new Date()): {
     priceCents: priceCents(board.moveCount),
     nextMondayIso: nextMondayUtc(now).toISOString(),
     rows: shelfRows(board),
+    activity: recentActivity(board),
     board,
   };
 }

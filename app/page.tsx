@@ -44,7 +44,7 @@ export default function HomePage() {
         <PaidReturn />
       </Suspense>
 
-      <ShelfBoard rows={snap.rows} />
+      <ShelfBoard rows={snap.rows} activity={snap.activity} />
     </>
   );
 }

@@ -1,8 +1,10 @@
-import { Fragment } from "react";
-import { typeLabel } from "@/lib/identity";
+"use client";
+
+import { Fragment, useState } from "react";
 import { timeAgo } from "@/lib/time-ago";
-import type { ShelfRow } from "@/lib/types";
-import { TypeGlyph } from "./type-glyph";
+import type { ActivityItem, ListingType, ShelfRow } from "@/lib/types";
+import { ActivityRail } from "./activity-rail";
+import { TypeTag } from "./type-tag";
 
 const BANDS = [
   { after: 3, label: "Top 3" },
@@ -10,8 +12,28 @@ const BANDS = [
   { after: 20, label: "Top 20" },
 ] as const;
 
-export function ShelfBoard({ rows }: { rows: ShelfRow[] }) {
-  const [lead, ...rest] = rows;
+type Filter = "all" | ListingType;
+
+const FILTERS: { id: Filter; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "ios", label: "App Store" },
+  { id: "android", label: "Play Store" },
+  { id: "site", label: "Site" },
+];
+
+export function ShelfBoard({
+  rows,
+  activity,
+}: {
+  rows: ShelfRow[];
+  activity: ActivityItem[];
+}) {
+  const [filter, setFilter] = useState<Filter>("all");
+  const visible = filter === "all" ? rows : rows.filter((row) => row.type === filter);
+  const featured = visible.filter((row) => row.rank <= 3);
+  const compact = visible.filter((row) => row.rank > 3);
+  const lead = featured.find((row) => row.rank === 1);
+  const mids = featured.filter((row) => row.rank > 1);
 
   return (
     <section className="shelf">
@@ -21,17 +43,39 @@ export function ShelfBoard({ rows }: { rows: ShelfRow[] }) {
           <h2>This week</h2>
         </div>
         {rows.length > 0 ? (
-          <span className="shelf-count">{rows.length} apps</span>
+          <span className="shelf-count">{visible.length} apps</span>
         ) : null}
       </div>
+
+      {rows.length > 0 ? (
+        <div className="tag-bar" role="tablist" aria-label="Catalog">
+          {FILTERS.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              role="tab"
+              aria-selected={filter === item.id}
+              className={filter === item.id ? "tag-pill on" : "tag-pill"}
+              onClick={() => setFilter(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      ) : null}
+
       {rows.length === 0 ? (
         <p className="empty">
           The shelf is empty. First move is $1.
         </p>
       ) : (
         <div className="shelf-list">
-          <FeaturedRow row={lead} />
-          {rest.map((row) => (
+          {lead ? <FeaturedRow row={lead} /> : null}
+          {mids.map((row) => (
+            <MidRow key={row.identityKey} row={row} />
+          ))}
+          <ActivityRail items={activity} />
+          {compact.map((row) => (
             <Fragment key={row.identityKey}>
               <BandMark rank={row.rank} total={rows.length} />
               <CompactRow row={row} />
@@ -52,8 +96,9 @@ function BandMark({ rank, total }: { rank: number; total: number }) {
 function RowMeta({ row }: { row: ShelfRow }) {
   return (
     <span className="meta row-meta">
-      <TypeGlyph type={row.type} />
-      {timeAgo(row.lastPaidAt)} · {typeLabel(row.type)} · ${row.lastAmountCents / 100} move
+      {timeAgo(row.lastPaidAt)}
+      <TypeTag type={row.type} />
+      ${row.lastAmountCents / 100} move
     </span>
   );
 }
@@ -84,6 +129,25 @@ function FeaturedRow({ row }: { row: ShelfRow }) {
       {row.screenshotUrl ? (
         <img className="featured-shot" src={row.screenshotUrl} alt="" />
       ) : null}
+    </a>
+  );
+}
+
+function MidRow({ row }: { row: ShelfRow }) {
+  return (
+    <a className="mid" href={row.url} rel="noreferrer">
+      <span className="rank">{row.rank}</span>
+      {row.iconUrl ? (
+        <img src={row.iconUrl} alt="" width={52} height={52} />
+      ) : (
+        <span className="mid-icon icon-well" aria-hidden="true" />
+      )}
+      <span className="mid-text">
+        <strong>{row.name}</strong>
+        {row.blurb ? <span className="blurb">{row.blurb}</span> : null}
+        <RowMeta row={row} />
+      </span>
+      <span className="mid-amount">${row.lastAmountCents / 100}</span>
     </a>
   );
 }

@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 import {
   emptyBoard,
   fulfillOrder,
+  recentActivity,
   refundOrder,
   shelfRows,
   type WeekBoard,
@@ -66,6 +67,12 @@ describe("fulfillOrder", () => {
     assert.equal(rows[0].rank, 1);
     assert.equal(rows[1].name, "A");
     assert.equal(priceDollars(board.moveCount), 3);
+
+    const activity = recentActivity(board);
+    assert.equal(activity[0].name, "B");
+    assert.equal(activity[0].rank, 1);
+    assert.equal(activity[0].amountCents, 200);
+    assert.equal(activity[1].name, "A");
   });
 
   it("same identity is one listing, moved back to #1", () => {

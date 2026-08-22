@@ -13,6 +13,17 @@ export type ListingPreview = ParsedInput & {
   screenshotUrl: string | null;
 };
 
+export type ActivityItem = {
+  identityKey: string;
+  name: string;
+  url: string;
+  iconUrl: string | null;
+  type: ListingType;
+  rank: number;
+  amountCents: number;
+  paidAt: string;
+};
+
 export type ShelfRow = {
   rank: number;
   identityKey: string;
