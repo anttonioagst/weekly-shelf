@@ -1,5 +1,14 @@
+import { Fragment } from "react";
 import { typeLabel } from "@/lib/identity";
+import { timeAgo } from "@/lib/time-ago";
 import type { ShelfRow } from "@/lib/types";
+import { TypeGlyph } from "./type-glyph";
+
+const BANDS = [
+  { after: 3, label: "Top 3" },
+  { after: 10, label: "Top 10" },
+  { after: 20, label: "Top 20" },
+] as const;
 
 export function ShelfBoard({ rows }: { rows: ShelfRow[] }) {
   const [lead, ...rest] = rows;
@@ -20,11 +29,29 @@ export function ShelfBoard({ rows }: { rows: ShelfRow[] }) {
         <div className="shelf-list">
           <FeaturedRow row={lead} />
           {rest.map((row) => (
-            <CompactRow key={row.identityKey} row={row} />
+            <Fragment key={row.identityKey}>
+              <BandMark rank={row.rank} total={rows.length} />
+              <CompactRow row={row} />
+            </Fragment>
           ))}
         </div>
       )}
     </section>
+  );
+}
+
+function BandMark({ rank, total }: { rank: number; total: number }) {
+  const band = BANDS.find((item) => rank === item.after + 1 && total > item.after);
+  if (!band) return null;
+  return <p className="band-mark">{band.label}</p>;
+}
+
+function RowMeta({ row }: { row: ShelfRow }) {
+  return (
+    <span className="meta row-meta">
+      <TypeGlyph type={row.type} />
+      {timeAgo(row.lastPaidAt)} · {typeLabel(row.type)} · ${row.lastAmountCents / 100} move
+    </span>
   );
 }
 
@@ -46,9 +73,8 @@ function FeaturedRow({ row }: { row: ShelfRow }) {
         )}
         <span className="featured-text">
           <strong>{row.name}</strong>
-          <span className="meta">
-            {typeLabel(row.type)} · ${row.lastAmountCents / 100} move
-          </span>
+          {row.blurb ? <span className="blurb">{row.blurb}</span> : null}
+          <RowMeta row={row} />
         </span>
         <span className="meta open">Open</span>
       </div>
@@ -70,9 +96,8 @@ function CompactRow({ row }: { row: ShelfRow }) {
       )}
       <span className="row-text">
         <strong>{row.name}</strong>
-        <span className="meta">
-          {typeLabel(row.type)} · ${row.lastAmountCents / 100} move
-        </span>
+        {row.blurb ? <span className="blurb">{row.blurb}</span> : null}
+        <RowMeta row={row} />
       </span>
       <span className="meta open">Open</span>
     </a>

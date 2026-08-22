@@ -9,6 +9,7 @@ export const dynamic = "force-dynamic";
 
 export default function HomePage() {
   const snap = currentWeekSnapshot();
+  const empty = snap.rows.length === 0;
 
   return (
     <>
@@ -21,14 +22,22 @@ export default function HomePage() {
       </section>
 
       <section className="composer">
+        <div className="composer-price">
+          <p className="kicker">Current price</p>
+          <div className="composer-price-row">
+            <p className="price">${snap.priceDollars}</p>
+            <p className="meta">one payment · ${snap.priceDollars} = $1 + {snap.moveCount} moves</p>
+          </div>
+        </div>
         <ClaimForm priceDollars={snap.priceDollars} />
+        <Countdown nextMondayIso={snap.nextMondayIso} />
       </section>
 
-      <div className="composer-meta">
-        <p className="kicker">Current price</p>
-        <p className="price">${snap.priceDollars}</p>
-        <p className="meta">one payment · ${snap.priceDollars} = $1 + {snap.moveCount} moves</p>
-        <Countdown nextMondayIso={snap.nextMondayIso} />
+      <div className="composer-helpers">
+        {empty ? (
+          <p className="meta">The shelf is empty. First move is $1.</p>
+        ) : null}
+        <p className="meta">Pay again to move it back to the top.</p>
       </div>
 
       <Suspense>

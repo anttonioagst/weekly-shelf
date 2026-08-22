@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { ListingPreview, ListingType } from "@/lib/types";
+import { TypeGlyph } from "./type-glyph";
 
 const URL_ERROR = "Use a live App Store, Play Store, or website URL.";
 const CHECKOUT_ERROR = "Checkout is not open yet.";
@@ -96,8 +97,12 @@ export function ClaimForm({ priceDollars }: { priceDollars: number }) {
           {preview.iconUrl ? (
             <img src={preview.iconUrl} alt="" width={48} height={48} />
           ) : null}
-          <div className="meta">
-            {preview.name} · {previewTypeLabel(preview.type)}
+          <div className="preview-copy">
+            <div className="meta">
+              <TypeGlyph type={preview.type} />
+              {preview.name} · {previewTypeLabel(preview.type)}
+            </div>
+            {preview.blurb ? <p className="blurb">{preview.blurb}</p> : null}
           </div>
         </div>
       ) : null}

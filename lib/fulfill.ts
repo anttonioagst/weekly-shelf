@@ -6,6 +6,7 @@ export type ListingRecord = {
   type: ListingType;
   url: string;
   name: string;
+  blurb?: string | null;
   iconUrl: string | null;
   screenshotUrl: string | null;
   lastPaidAt: string;
@@ -83,6 +84,7 @@ export function fulfillOrder(board: WeekBoard, input: FulfillInput): {
     type: checkout.type,
     url: checkout.url,
     name: checkout.name,
+    blurb: checkout.blurb ?? null,
     iconUrl: checkout.iconUrl,
     screenshotUrl: checkout.screenshotUrl,
     lastPaidAt: move.paidAt,
@@ -131,6 +133,7 @@ export function shelfRows(board: WeekBoard): ShelfRow[] {
       type: listing.type,
       url: listing.url,
       name: listing.name,
+      blurb: listing.blurb ?? null,
       iconUrl: listing.iconUrl,
       screenshotUrl: listing.screenshotUrl,
       lastPaidAt: listing.lastPaidAt,

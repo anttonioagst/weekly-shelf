@@ -70,6 +70,7 @@ async function previewIos(id: string, url: string): Promise<ListingPreview> {
   const data = (await response.json()) as {
     results?: Array<{
       trackName?: string;
+      description?: string;
       artworkUrl100?: string;
       artworkUrl512?: string;
       screenshotUrls?: string[];
@@ -84,6 +85,7 @@ async function previewIos(id: string, url: string): Promise<ListingPreview> {
     identityKey: `ios:${id}`,
     url,
     name: app.trackName,
+    blurb: clipBlurb(app.description),
     iconUrl: app.artworkUrl100 ?? app.artworkUrl512 ?? null,
     screenshotUrl: app.screenshotUrls?.[0] ?? app.artworkUrl512 ?? null,
   };
@@ -100,15 +102,29 @@ async function previewHtml(
     new URL(parsed.url).hostname;
   const screenshot =
     meta(html, "og:image") ?? meta(html, "twitter:image") ?? null;
+  const blurb = clipBlurb(
+    meta(html, "og:description") ??
+      meta(html, "twitter:description") ??
+      meta(html, "description"),
+  );
   const icon =
     iconFromHtml(html, parsed.url) ??
     `https://www.google.com/s2/favicons?sz=128&domain=${new URL(parsed.url).hostname}`;
   return {
     ...parsed,
     name,
+    blurb,
     iconUrl: icon,
     screenshotUrl: screenshot,
   };
+}
+
+export function clipBlurb(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  const clean = raw.replace(/\s+/g, " ").trim();
+  if (!clean) return null;
+  if (clean.length <= 160) return clean;
+  return `${clean.slice(0, 157).replace(/\s+\S*$/, "")}…`;
 }
 
 export async function previewListing(raw: string): Promise<ListingPreview> {
@@ -124,6 +140,7 @@ export async function previewListing(raw: string): Promise<ListingPreview> {
     return {
       ...parsed,
       name: host,
+      blurb: null,
       iconUrl: `https://www.google.com/s2/favicons?sz=128&domain=${host}`,
       screenshotUrl: null,
     };
