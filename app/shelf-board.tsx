@@ -16,7 +16,10 @@ export function ShelfBoard({ rows }: { rows: ShelfRow[] }) {
   return (
     <section className="shelf">
       <div className="shelf-head">
-        <h2>This week</h2>
+        <div className="shelf-titles">
+          <p className="shelf-kicker">Live shelf</p>
+          <h2>This week</h2>
+        </div>
         {rows.length > 0 ? (
           <span className="shelf-count">{rows.length} apps</span>
         ) : null}
