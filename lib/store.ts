@@ -30,33 +30,55 @@ function getDb(): DatabaseSync {
       visitor_key TEXT NOT NULL,
       seen_at TEXT NOT NULL
     );
-    CREATE INDEX IF NOT EXISTS visits_seen_at ON visits(seen_at);
+    CREATE TABLE IF NOT EXISTS visitors (
+      visitor_key TEXT PRIMARY KEY,
+      first_seen TEXT NOT NULL,
+      last_seen TEXT NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS visitors_last_seen ON visitors(last_seen);
   `);
   return db;
 }
 
-const VISIT_WINDOW_MS = 12 * 60 * 60 * 1000;
+export const VISIT_WINDOW_MS = 12 * 60 * 60 * 1000;
+export const ONLINE_WINDOW_MS = 5 * 60 * 1000;
 
 export function recordVisit(visitorKey: string, now = new Date()): void {
-  const since = new Date(now.getTime() - VISIT_WINDOW_MS).toISOString();
-  const database = getDb();
-  const seen = database
+  const iso = now.toISOString();
+  getDb()
     .prepare(
-      "SELECT 1 AS ok FROM visits WHERE visitor_key = ? AND seen_at >= ? LIMIT 1",
+      `INSERT INTO visitors (visitor_key, first_seen, last_seen)
+       VALUES (?, ?, ?)
+       ON CONFLICT(visitor_key) DO UPDATE SET last_seen = excluded.last_seen`,
     )
-    .get(visitorKey, since) as { ok: number } | undefined;
-  if (seen) return;
-  database
-    .prepare("INSERT INTO visits (visitor_key, seen_at) VALUES (?, ?)")
-    .run(visitorKey, now.toISOString());
-  database.prepare("DELETE FROM visits WHERE seen_at < ?").run(since);
+    .run(visitorKey, iso, iso);
+}
+
+function countSince(column: "last_seen", sinceIso: string): number {
+  const row = getDb()
+    .prepare(`SELECT COUNT(*) AS n FROM visitors WHERE ${column} >= ?`)
+    .get(sinceIso) as { n: number };
+  return row.n;
+}
+
+export function countOnline(now = new Date()): number {
+  return countSince(
+    "last_seen",
+    new Date(now.getTime() - ONLINE_WINDOW_MS).toISOString(),
+  );
 }
 
 export function countVisitsLast12h(now = new Date()): number {
-  const since = new Date(now.getTime() - VISIT_WINDOW_MS).toISOString();
+  return countSince(
+    "last_seen",
+    new Date(now.getTime() - VISIT_WINDOW_MS).toISOString(),
+  );
+}
+
+export function countVisitorsAll(): number {
   const row = getDb()
-    .prepare("SELECT COUNT(*) AS n FROM visits WHERE seen_at >= ?")
-    .get(since) as { n: number };
+    .prepare("SELECT COUNT(*) AS n FROM visitors")
+    .get() as { n: number };
   return row.n;
 }
 

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { headers } from "next/headers";
 import { touchVisit } from "@/lib/visits";
 
@@ -7,13 +8,18 @@ export async function VisitorCount() {
     h.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     h.get("x-real-ip") ||
     "local";
-  const count = touchVisit(ip, h.get("user-agent") ?? "");
+  const snap = touchVisit(ip, h.get("user-agent") ?? "");
 
   return (
     <p className="visitors">
       <span className="visitors-dot" aria-hidden="true" />
-      <strong>{count.toLocaleString("en-US")}</strong>
-      <span> visitors in the last 12h</span>
+      <strong>{snap.online.toLocaleString("en-US")}</strong>
+      <span> online</span>
+      <span className="visitors-sep">·</span>
+      <Link href="/stats">
+        <strong>{snap.last12h.toLocaleString("en-US")}</strong>
+        <span> visitors in the last 12h</span>
+      </Link>
     </p>
   );
 }
