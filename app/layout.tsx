@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import Link from "next/link";
+import { SiteNav } from "./site-nav";
 import { VisitorCount } from "./visitor-count";
 import "./globals.css";
 
@@ -32,14 +33,19 @@ export default function RootLayout({
             </Link>
             <div className="header-end">
               <VisitorCount />
-              <nav>
-                <Link href="/rules">Rules</Link>
-              </nav>
+              <SiteNav />
             </div>
           </header>
           {children}
           <footer className="site-footer">
-            Checkout by Polar. No traffic guaranteed.
+            <p>Checkout by Polar. No traffic guaranteed.</p>
+            <p className="footer-links">
+              <Link href="/">Board</Link>
+              <Link href="/categories">Categories</Link>
+              <Link href="/about">About</Link>
+              <Link href="/rules">Rules</Link>
+              <Link href="/stats">Stats</Link>
+            </p>
           </footer>
         </main>
       </body>
