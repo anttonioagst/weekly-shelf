@@ -1,5 +1,7 @@
+import { PulseIcon } from "@phosphor-icons/react/ssr";
 import { timeAgo } from "@/lib/time-ago";
 import type { ActivityItem } from "@/lib/types";
+import { ListingIcon } from "./listing-icon";
 
 export function ActivityRail({ items }: { items: ActivityItem[] }) {
   if (items.length === 0) return null;
@@ -7,7 +9,7 @@ export function ActivityRail({ items }: { items: ActivityItem[] }) {
   return (
     <section className="activity">
       <p className="activity-head">
-        <span className="visitors-dot" aria-hidden="true" />
+        <PulseIcon size={15} weight="fill" aria-hidden />
         Latest activity
       </p>
       <div className="activity-rail">
@@ -18,11 +20,7 @@ export function ActivityRail({ items }: { items: ActivityItem[] }) {
             href={item.url}
             rel="noreferrer"
           >
-            {item.iconUrl ? (
-              <img src={item.iconUrl} alt="" width={32} height={32} />
-            ) : (
-              <span className="row-icon icon-well" aria-hidden="true" />
-            )}
+            <ListingIcon className="row-icon" src={item.iconUrl} size={32} />
             <span className="activity-copy">
               <strong>{item.name}</strong>
               <span className="meta">

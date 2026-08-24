@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CreditCardIcon, RowsIcon } from "@phosphor-icons/react/ssr";
 import { Nunito } from "next/font/google";
 import Link from "next/link";
 import { SiteNav } from "./site-nav";
@@ -29,6 +30,7 @@ export default function RootLayout({
         <main>
           <header className="site-header">
             <Link href="/" className="wordmark">
+              <RowsIcon size={18} weight="bold" aria-hidden />
               Weekly shelf
             </Link>
             <div className="header-end">
@@ -38,7 +40,10 @@ export default function RootLayout({
           </header>
           {children}
           <footer className="site-footer">
-            <p>Checkout by Polar. No traffic guaranteed.</p>
+            <p className="with-icon">
+              <CreditCardIcon size={15} weight="bold" aria-hidden />
+              Checkout by Polar. No traffic guaranteed.
+            </p>
             <p className="footer-links">
               <Link href="/">Board</Link>
               <Link href="/categories">Categories</Link>

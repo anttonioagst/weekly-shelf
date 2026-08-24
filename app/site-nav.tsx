@@ -1,13 +1,19 @@
 "use client";
 
+import {
+  InfoIcon,
+  RowsIcon,
+  ScrollIcon,
+  SquaresFourIcon,
+} from "@phosphor-icons/react/ssr";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const LINKS = [
-  { href: "/", label: "Board" },
-  { href: "/categories", label: "Categories" },
-  { href: "/about", label: "About" },
-  { href: "/rules", label: "Rules" },
+  { href: "/", label: "Board", Icon: RowsIcon },
+  { href: "/categories", label: "Categories", Icon: SquaresFourIcon },
+  { href: "/about", label: "About", Icon: InfoIcon },
+  { href: "/rules", label: "Rules", Icon: ScrollIcon },
 ] as const;
 
 export function SiteNav() {
@@ -22,6 +28,7 @@ export function SiteNav() {
             : pathname === link.href || pathname.startsWith(`${link.href}/`);
         return (
           <Link key={link.href} href={link.href} className={on ? "on" : undefined}>
+            <link.Icon size={16} weight="bold" aria-hidden />
             {link.label}
           </Link>
         );

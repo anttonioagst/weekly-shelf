@@ -1,5 +1,6 @@
 "use client";
 
+import { TimerIcon } from "@phosphor-icons/react/ssr";
 import { useEffect, useState } from "react";
 
 function format(ms: number): string {
@@ -26,7 +27,8 @@ export function Countdown({ nextMondayIso }: { nextMondayIso: string }) {
   }, [target]);
 
   return (
-    <p className="countdown">
+    <p className="countdown with-icon">
+      <TimerIcon size={15} weight="bold" aria-hidden />
       Empties in {label}
     </p>
   );

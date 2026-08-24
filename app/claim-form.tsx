@@ -1,7 +1,9 @@
 "use client";
 
+import { CrownSimpleIcon, LinkSimpleIcon, WarningCircleIcon } from "@phosphor-icons/react/ssr";
 import { useEffect, useState } from "react";
 import type { ListingPreview, ListingType } from "@/lib/types";
+import { ListingIcon } from "./listing-icon";
 import { TypeGlyph } from "./type-glyph";
 
 const URL_ERROR = "Use a live App Store, Play Store, or website URL.";
@@ -80,23 +82,25 @@ export function ClaimForm({ priceDollars }: { priceDollars: number }) {
         App Store, Play Store, or site URL
       </label>
       <div className="claim-row">
-        <input
-          id="listing-url"
-          type="url"
-          required
-          placeholder="https://"
-          value={url}
-          onChange={(event) => setUrl(event.target.value)}
-        />
+        <div className="claim-field">
+          <LinkSimpleIcon className="field-icon" size={16} weight="bold" aria-hidden />
+          <input
+            id="listing-url"
+            type="url"
+            required
+            placeholder="https://"
+            value={url}
+            onChange={(event) => setUrl(event.target.value)}
+          />
+        </div>
         <button type="submit" disabled={busy || !preview}>
+          <CrownSimpleIcon size={18} weight="bold" aria-hidden />
           Take #1 for ${priceDollars}
         </button>
       </div>
       {preview ? (
         <div className="preview">
-          {preview.iconUrl ? (
-            <img src={preview.iconUrl} alt="" width={48} height={48} />
-          ) : null}
+          <ListingIcon src={preview.iconUrl} size={48} />
           <div className="preview-copy">
             <div className="meta">
               <TypeGlyph type={preview.type} />
@@ -106,7 +110,12 @@ export function ClaimForm({ priceDollars }: { priceDollars: number }) {
           </div>
         </div>
       ) : null}
-      {error ? <p className="error">{error}</p> : null}
+      {error ? (
+        <p className="error with-icon">
+          <WarningCircleIcon size={16} weight="fill" aria-hidden />
+          {error}
+        </p>
+      ) : null}
     </form>
   );
 }

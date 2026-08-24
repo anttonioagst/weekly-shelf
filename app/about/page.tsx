@@ -1,9 +1,46 @@
 import type { Metadata } from "next";
+import {
+  ArrowLeftIcon,
+  CreditCardIcon,
+  ImageIcon,
+  ProhibitIcon,
+  RankingIcon,
+  StorefrontIcon,
+  TimerIcon,
+} from "@phosphor-icons/react/ssr";
 import Link from "next/link";
+import type { Icon } from "@phosphor-icons/react";
 
 export const metadata: Metadata = {
   title: "About — Weekly shelf",
 };
+
+const CARDS: { Icon: Icon; text: string }[] = [
+  {
+    Icon: RankingIcon,
+    text: "Pay the current price. Take #1 this week.",
+  },
+  {
+    Icon: TimerIcon,
+    text: "The next move costs $1 more. Monday 00:00 UTC the shelf is empty. You are not buying clicks, SEO, or installs.",
+  },
+  {
+    Icon: ImageIcon,
+    text: "The #1 row, a link out, and a screenshot. That is the whole purchase.",
+  },
+  {
+    Icon: StorefrontIcon,
+    text: "Catalog: a live App Store app, Play Store app, or public website. TestFlight-only builds and chat invites are out.",
+  },
+  {
+    Icon: CreditCardIcon,
+    text: "Polar is the merchant. If they refuse this product, the shelf stops. We will not add another payer.",
+  },
+  {
+    Icon: ProhibitIcon,
+    text: "Checkout by Polar. No traffic guaranteed.",
+  },
+];
 
 export default function AboutPage() {
   return (
@@ -13,31 +50,18 @@ export default function AboutPage() {
         How the shelf works. Nothing here is a traffic promise.
       </p>
       <div className="rules-grid">
-        <div className="rule-card">
-          Pay the current price. Take #1 this week.
-        </div>
-        <div className="rule-card">
-          The next move costs $1 more. Monday 00:00 UTC the shelf is empty. You
-          are not buying clicks, SEO, or installs.
-        </div>
-        <div className="rule-card">
-          The #1 row, a link out, and a screenshot. That is the whole
-          purchase.
-        </div>
-        <div className="rule-card">
-          Catalog: a live App Store app, Play Store app, or public website.
-          TestFlight-only builds and chat invites are out.
-        </div>
-        <div className="rule-card">
-          Polar is the merchant. If they refuse this product, the shelf stops.
-          We will not add another payer.
-        </div>
-        <div className="rule-card">
-          Checkout by Polar. No traffic guaranteed.
-        </div>
+        {CARDS.map((card) => (
+          <div className="rule-card" key={card.text}>
+            <card.Icon className="card-icon" size={28} weight="duotone" aria-hidden />
+            {card.text}
+          </div>
+        ))}
       </div>
       <p className="back-home">
-        <Link href="/">Back home</Link>
+        <Link href="/">
+          <ArrowLeftIcon size={16} weight="bold" aria-hidden />
+          Back home
+        </Link>
       </p>
     </article>
   );
