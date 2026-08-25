@@ -89,7 +89,7 @@ export function ShelfBoard({
         <div className="shelf-list">
           {lead ? <FeaturedRow row={lead} /> : null}
           {mids.map((row) => (
-            <MidRow key={row.identityKey} row={row} />
+            <CompactRow key={row.identityKey} row={row} />
           ))}
           <ActivityRail items={activity} />
           {compact.map((row) => (
@@ -145,21 +145,6 @@ function FeaturedRow({ row }: { row: ShelfRow }) {
       {row.screenshotUrl ? (
         <img className="featured-shot" src={row.screenshotUrl} alt="" />
       ) : null}
-    </a>
-  );
-}
-
-function MidRow({ row }: { row: ShelfRow }) {
-  return (
-    <a className="mid" href={row.url} rel="noreferrer">
-      <span className="rank">{row.rank}</span>
-      <ListingIcon className="mid-icon" src={row.iconUrl} size={52} />
-      <span className="mid-text">
-        <strong>{row.name}</strong>
-        {row.blurb ? <span className="blurb">{row.blurb}</span> : null}
-        <RowMeta row={row} />
-      </span>
-      <span className="mid-amount">${row.lastAmountCents / 100}</span>
     </a>
   );
 }

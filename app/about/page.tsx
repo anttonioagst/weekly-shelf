@@ -15,11 +15,8 @@ export const metadata: Metadata = {
   title: "About — Weekly shelf",
 };
 
-const CARDS: { Icon: Icon; text: string }[] = [
-  {
-    Icon: RankingIcon,
-    text: "Pay the current price. Take #1 this week.",
-  },
+const ROWS: { Icon: Icon; text: string }[] = [
+  { Icon: RankingIcon, text: "Pay the current price. Take #1 this week." },
   {
     Icon: TimerIcon,
     text: "The next move costs $1 more. Monday 00:00 UTC the shelf is empty. You are not buying clicks, SEO, or installs.",
@@ -49,14 +46,15 @@ export default function AboutPage() {
       <p className="lede">
         How the shelf works. Nothing here is a traffic promise.
       </p>
-      <div className="rules-grid">
-        {CARDS.map((card) => (
-          <div className="rule-card" key={card.text}>
-            <card.Icon className="card-icon" size={28} weight="duotone" aria-hidden />
-            {card.text}
-          </div>
+      <ol className="doc-panel">
+        {ROWS.map((row, index) => (
+          <li className="doc-row" key={row.text}>
+            <span className="doc-index">{String(index + 1).padStart(2, "0")}</span>
+            <row.Icon size={18} weight="bold" aria-hidden />
+            <span>{row.text}</span>
+          </li>
         ))}
-      </div>
+      </ol>
       <p className="back-home">
         <Link href="/">
           <ArrowLeftIcon size={16} weight="bold" aria-hidden />

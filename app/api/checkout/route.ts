@@ -1,3 +1,4 @@
+import { publicAppUrl } from "@/lib/app-url";
 import { InputError } from "@/lib/identity";
 import { previewListing } from "@/lib/preview";
 import { currentWeekSnapshot } from "@/lib/shelf";
@@ -13,14 +14,6 @@ import { priceCents, weekIdAt } from "@/lib/week";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
-
-function appUrl(request: Request): string {
-  return (
-    process.env.APP_URL ??
-    request.headers.get("origin") ??
-    "http://localhost:3000"
-  ).replace(/\/$/, "");
-}
 
 export async function POST(request: Request) {
   const body = (await request.json().catch(() => null)) as { url?: string } | null;
@@ -41,7 +34,7 @@ export async function POST(request: Request) {
   const weekId = weekIdAt(now);
   const quotedCents = priceCents(currentWeekSnapshot(now).moveCount);
   const holdExpiresAt = new Date(now.getTime() + HOLD_MS).toISOString();
-  const origin = appUrl(request);
+  const origin = publicAppUrl(request);
   const metadata = listingMetadata({
     weekId,
     identityKey: preview.identityKey,
@@ -58,9 +51,12 @@ export async function POST(request: Request) {
       mode: "payment",
       integration_identifier: STRIPE_INTEGRATION_ID,
       success_url: `${origin}/?checkout_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: origin,
+      cancel_url: `${origin}/`,
       expires_at: Math.floor((now.getTime() + HOLD_MS + 2000) / 1000),
       allow_promotion_codes: false,
+      custom_text: {
+        submit: { message: "Take #1 this week. No traffic guaranteed." },
+      },
       line_items: [
         {
           quantity: 1,
