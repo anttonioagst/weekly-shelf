@@ -80,14 +80,18 @@ export function ClaimForm({ priceDollars }: { priceDollars: number }) {
             id="listing-url"
             type="url"
             required
-            placeholder="https://"
+            placeholder="Paste your App Store, Play Store, or site URL"
             value={url}
             onChange={(event) => setUrl(event.target.value)}
           />
         </div>
-        <button type="submit" disabled={busy || !preview}>
+        <button
+          type="submit"
+          disabled={busy || !preview}
+          aria-label={`Claim number one for $${priceDollars}`}
+        >
           <CrownSimpleIcon size={18} weight="bold" aria-hidden />
-          Take #1 for ${priceDollars}
+          Claim number one
         </button>
       </div>
       {preview ? (

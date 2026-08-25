@@ -1,6 +1,7 @@
 import { ArrowFatLineUpIcon, CurrencyDollarIcon, TrayIcon } from "@phosphor-icons/react/ssr";
 import { Suspense } from "react";
 import { currentWeekSnapshot } from "@/lib/shelf";
+import { BrandMark } from "./brand-mark";
 import { ClaimForm } from "./claim-form";
 import { Countdown } from "./countdown";
 import { PaidReturn } from "./paid-return";
@@ -11,14 +12,23 @@ export const dynamic = "force-dynamic";
 export default function HomePage() {
   const snap = currentWeekSnapshot();
   const empty = snap.rows.length === 0;
+  const nextDollars = snap.priceDollars + 1;
 
   return (
     <>
       <section className="intro">
-        <h1>Pay the current price. Take #1 this week.</h1>
+        <p className="intro-kicker">
+          A weekly shelf for
+          <span className="intro-marks" aria-label="App Store, Play Store, and websites">
+            <BrandMark type="ios" size={16} tone="color" />
+            <BrandMark type="android" size={16} tone="color" />
+            <BrandMark type="site" size={16} tone="color" />
+          </span>
+        </p>
+        <h1>Get in early. Stay on top.</h1>
         <p className="lede">
-          The next move costs $1 more. Monday 00:00 UTC the shelf is empty. You
-          are not buying clicks, SEO, or installs.
+          Join when the price feels right. Your payment puts the listing at
+          the top, then the next move costs $1 more.
         </p>
       </section>
 
@@ -30,8 +40,11 @@ export default function HomePage() {
           </p>
           <div className="composer-price-row">
             <p className="price">${snap.priceDollars}</p>
-            <p className="meta">one payment · ${snap.priceDollars} = $1 + {snap.moveCount} moves</p>
+            <p className="meta">one payment</p>
           </div>
+          <p className="composer-blurb">
+            Your listing goes straight to number one. The next move becomes ${nextDollars}.
+          </p>
         </div>
         <ClaimForm priceDollars={snap.priceDollars} />
         <Countdown nextMondayIso={snap.nextMondayIso} />

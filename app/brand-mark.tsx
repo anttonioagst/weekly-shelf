@@ -1,4 +1,4 @@
-import { GlobeIcon } from "@phosphor-icons/react/ssr";
+import { LinkSimpleIcon } from "@phosphor-icons/react/ssr";
 import AppStore from "@thesvg/react/app-store";
 import GooglePlay from "@thesvg/react/google-play";
 import type { ListingType } from "@/lib/types";
@@ -39,5 +39,5 @@ export function BrandMark({
     );
   }
 
-  return <GlobeIcon size={size} weight="bold" className={className} aria-hidden />;
+  return <LinkSimpleIcon size={size} weight="bold" className={className} aria-hidden />;
 }
