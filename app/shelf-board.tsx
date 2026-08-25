@@ -123,7 +123,7 @@ function RowMeta({ row }: { row: ShelfRow }) {
 function OpenMark() {
   return (
     <span className="meta open">
-      Open
+      <span className="open-label">Open</span>
       <ArrowSquareOutIcon size={14} weight="bold" aria-hidden />
     </span>
   );

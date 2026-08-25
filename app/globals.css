@@ -1,26 +1,26 @@
 /* ------------------------------------------------------------------
-   Weekly shelf — Tapshelf-inspired design tokens (locked values)
+   Weekly shelf — warm paper + burnt sienna (not iOS gray / forest green)
 ------------------------------------------------------------------ */
 :root {
   color-scheme: light;
-  --bg: #f2f2f7;
-  --fg: #1c1c1e;
-  --muted: #8e8e93;
-  --card: #ffffff;
-  --line: #e5e5ea;
-  --accent: #1f6f52;
-  --accent-hover: #185b43;
-  --accent-ink: #ffffff;
-  --accent-soft: #e7f2ec;
-  --soft: #0000000f;
-  --icon-well: #e5e5ea;
-  --danger: #ff3b30;
+  --bg: #f4efe6;
+  --fg: #1b1916;
+  --muted: #7a7368;
+  --card: #fffcf7;
+  --line: #e4dbd0;
+  --accent: #c24e1d;
+  --accent-hover: #9e3d16;
+  --accent-ink: #fffaf4;
+  --accent-soft: #f8e3d6;
+  --soft: #1b191614;
+  --icon-well: #ebe3d8;
+  --danger: #c5263a;
   /* On-dark supporting values (same values the stylesheet already used) */
-  --on-dark-muted: rgba(255, 255, 255, 0.65);
-  --on-dark-faint: rgba(255, 255, 255, 0.4);
-  --on-dark-line: rgba(255, 255, 255, 0.25);
-  --on-dark-focus: rgba(255, 255, 255, 0.5);
-  --danger-on-dark: #ff6961;
+  --on-dark-muted: rgba(255, 250, 244, 0.68);
+  --on-dark-faint: rgba(255, 250, 244, 0.42);
+  --on-dark-line: rgba(255, 250, 244, 0.22);
+  --on-dark-focus: rgba(255, 250, 244, 0.55);
+  --danger-on-dark: #ff8a7a;
   --font-rounded: var(--font-nunito), "Nunito", ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
   --radius-icon: 13px;
   --radius-card: 28px;
@@ -28,7 +28,7 @@
   --radius-pill: 9999px;
   --space: 4px;
   --measure: 780px;
-  --shadow-price: 0 18px 50px rgba(0, 0, 0, 0.16);
+  --shadow-price: 0 18px 50px rgba(27, 25, 22, 0.18);
   --shadow-card: 0 12px 40px var(--soft);
   --shadow-icon: 0 10px 28px var(--soft);
 }
@@ -49,6 +49,7 @@ body {
   font-family: var(--font-rounded);
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 a {
@@ -71,6 +72,9 @@ main {
   width: min(var(--measure), calc(100% - calc(var(--space) * 8)));
   margin: 0 auto;
   padding: calc(var(--space) * 5) 0 calc(var(--space) * 8);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: calc(var(--space) * 8 + env(safe-area-inset-bottom));
 }
 
 /* ------------------------------------------------------------------
@@ -127,6 +131,10 @@ main {
 
 .visitors a:hover {
   text-decoration: underline;
+}
+
+.visitors-short {
+  display: none;
 }
 
 .visitors-sep {
@@ -1088,25 +1096,200 @@ a:focus-visible {
 }
 
 @media (max-width: 720px) {
+  main {
+    width: min(var(--measure), calc(100% - 20px));
+    padding-top: calc(var(--space) * 4);
+  }
+
   .site-header {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: calc(var(--space) * 3);
   }
 
   .header-end {
     width: 100%;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: calc(var(--space) * 2);
   }
 
   .visitors {
     font-size: 12px;
-    justify-content: flex-start;
-    text-align: left;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .visitors-long {
+    display: none;
+  }
+
+  .visitors-short {
+    display: inline;
   }
 
   .site-header nav {
     flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .intro {
+    text-align: center;
+  }
+
+  .intro .lede {
+    margin-inline: auto;
+  }
+
+  .composer {
+    padding: calc(var(--space) * 4);
+    text-align: center;
+  }
+
+  .composer-price .kicker,
+  .composer .countdown,
+  .claim-row button {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .composer-price-row {
+    justify-content: center;
+  }
+
+  .composer-helpers {
+    text-align: center;
+    justify-items: center;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .composer-helpers .with-icon {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .shelf {
+    padding: calc(var(--space) * 4);
+  }
+
+  .shelf-head {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .tag-bar {
+    justify-content: center;
+  }
+
+  .featured-line {
+    grid-template-columns: 56px minmax(0, 1fr);
+    justify-items: start;
+    text-align: left;
+  }
+
+  .featured .rank {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: center;
+  }
+
+  .featured-icon {
+    grid-column: 2;
+    width: 56px;
+    height: 56px;
+  }
+
+  .featured-text {
+    grid-column: 1 / -1;
+  }
+
+  .featured-text strong,
+  .mid-text strong,
+  .row-text strong {
+    white-space: normal;
+  }
+
+  .featured .open {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+  .featured-text .row-meta,
+  .mid-text .row-meta,
+  .row-text .row-meta {
+    white-space: normal;
+    overflow: visible;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .open-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .mid,
+  .row {
+    grid-template-columns: 28px 44px minmax(0, 1fr);
+  }
+
+  .mid-amount,
+  .row .open {
+    display: none;
+  }
+
+  .featured .open {
+    display: inline-flex;
+  }
+
+  .activity-head {
+    justify-content: center;
+  }
+
+  .site-footer {
+    text-align: center;
+  }
+
+  .site-footer .with-icon {
+    justify-content: center;
+  }
+
+  .footer-links {
+    justify-content: center;
+  }
+
+  .doc-page,
+  .rules-page {
+    text-align: center;
+  }
+
+  .doc-page .lede,
+  .rules-page .lede {
+    margin-inline: auto;
+  }
+
+  .rule-card,
+  .faq-card,
+  .stat-card,
+  .category-card {
+    text-align: left;
+  }
+
+  .back-home {
+    text-align: center;
+  }
+
+  .category-head {
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
 }
 

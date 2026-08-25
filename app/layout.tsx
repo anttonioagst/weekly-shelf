@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { RowsIcon } from "@phosphor-icons/react/ssr";
 import StripeMark from "@thesvg/react/stripe";
 import { Nunito } from "next/font/google";
@@ -13,6 +13,12 @@ const nunito = Nunito({
   display: "swap",
   variable: "--font-nunito",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: "Weekly shelf",
