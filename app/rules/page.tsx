@@ -67,8 +67,8 @@ const FAQS: { Icon: Icon; title: string; body: string }[] = [
   },
   {
     Icon: CreditCardIcon,
-    title: "Why Polar?",
-    body: "Polar is the merchant. If they refuse this product, the shelf stops. We will not add another payer.",
+    title: "Why Stripe?",
+    body: "Polar does not accept Brazilian businesses. Stripe is the merchant. Checkout is one payment for the quoted price.",
   },
 ];
 

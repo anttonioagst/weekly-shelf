@@ -13,7 +13,7 @@ import { HOLD_MS } from "./types";
 import { priceDollars } from "./week";
 
 function hold(
-  overrides: Partial<CheckoutHold> & Pick<CheckoutHold, "polarCheckoutId">,
+  overrides: Partial<CheckoutHold> & Pick<CheckoutHold, "checkoutId">,
 ): CheckoutHold {
   return {
     weekId: "2026-08-17",
@@ -33,7 +33,7 @@ function hold(
 function boardWith(checkouts: CheckoutHold[]): WeekBoard {
   const board = emptyBoard("2026-08-17");
   for (const checkout of checkouts) {
-    board.checkouts[checkout.polarCheckoutId] = checkout;
+    board.checkouts[checkout.checkoutId] = checkout;
   }
   return board;
 }
@@ -41,8 +41,8 @@ function boardWith(checkouts: CheckoutHold[]): WeekBoard {
 describe("fulfillOrder", () => {
   it("latest paid move wins and increments N", () => {
     let board = boardWith([
-      hold({ polarCheckoutId: "c1", quotedCents: 100, identityKey: "web:https://a.com", url: "https://a.com", name: "A" }),
-      hold({ polarCheckoutId: "c2", quotedCents: 200, identityKey: "web:https://b.com", url: "https://b.com", name: "B" }),
+      hold({ checkoutId: "c1", quotedCents: 100, identityKey: "web:https://a.com", url: "https://a.com", name: "A" }),
+      hold({ checkoutId: "c2", quotedCents: 200, identityKey: "web:https://b.com", url: "https://b.com", name: "B" }),
     ]);
 
     const first = fulfillOrder(board, {
@@ -77,9 +77,9 @@ describe("fulfillOrder", () => {
 
   it("same identity is one listing, moved back to #1", () => {
     let board = boardWith([
-      hold({ polarCheckoutId: "c1", quotedCents: 100 }),
-      hold({ polarCheckoutId: "c2", quotedCents: 200, identityKey: "web:https://other.com", url: "https://other.com", name: "Other" }),
-      hold({ polarCheckoutId: "c3", quotedCents: 300 }),
+      hold({ checkoutId: "c1", quotedCents: 100 }),
+      hold({ checkoutId: "c2", quotedCents: 200, identityKey: "web:https://other.com", url: "https://other.com", name: "Other" }),
+      hold({ checkoutId: "c3", quotedCents: 300 }),
     ]);
 
     board = fulfillOrder(board, {
@@ -112,7 +112,7 @@ describe("fulfillOrder", () => {
     const started = new Date("2026-08-21T12:00:00.000Z");
     const board = boardWith([
       hold({
-        polarCheckoutId: "c1",
+        checkoutId: "c1",
         holdExpiresAt: new Date(started.getTime() + HOLD_MS).toISOString(),
       }),
     ]);
@@ -130,8 +130,8 @@ describe("fulfillOrder", () => {
 
   it("overlapping holds: both complete, latest #1, N += 2", () => {
     let board = boardWith([
-      hold({ polarCheckoutId: "c1", quotedCents: 100, identityKey: "web:https://a.com", url: "https://a.com", name: "A" }),
-      hold({ polarCheckoutId: "c2", quotedCents: 100, identityKey: "web:https://b.com", url: "https://b.com", name: "B" }),
+      hold({ checkoutId: "c1", quotedCents: 100, identityKey: "web:https://a.com", url: "https://a.com", name: "A" }),
+      hold({ checkoutId: "c2", quotedCents: 100, identityKey: "web:https://b.com", url: "https://b.com", name: "B" }),
     ]);
     board = fulfillOrder(board, {
       orderId: "o1",
@@ -152,7 +152,7 @@ describe("fulfillOrder", () => {
 
   it("refund removes rank and does not lower price", () => {
     let board = boardWith([
-      hold({ polarCheckoutId: "c1", quotedCents: 100 }),
+      hold({ checkoutId: "c1", quotedCents: 100 }),
     ]);
     board = fulfillOrder(board, {
       orderId: "o1",
@@ -167,7 +167,7 @@ describe("fulfillOrder", () => {
   });
 
   it("is idempotent when the checkout is already fulfilled", () => {
-    let board = boardWith([hold({ polarCheckoutId: "c1" })]);
+    let board = boardWith([hold({ checkoutId: "c1" })]);
     board = fulfillOrder(board, {
       orderId: "o1",
       checkoutId: "c1",
@@ -185,7 +185,7 @@ describe("fulfillOrder", () => {
   });
 
   it("Monday week mismatch does not apply", () => {
-    const board = boardWith([hold({ polarCheckoutId: "c1", weekId: "2026-08-17" })]);
+    const board = boardWith([hold({ checkoutId: "c1", weekId: "2026-08-17" })]);
     const result = fulfillOrder(board, {
       orderId: "o1",
       checkoutId: "c1",

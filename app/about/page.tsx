@@ -34,11 +34,11 @@ const CARDS: { Icon: Icon; text: string }[] = [
   },
   {
     Icon: CreditCardIcon,
-    text: "Polar is the merchant. If they refuse this product, the shelf stops. We will not add another payer.",
+    text: "Stripe is the merchant. Polar does not accept Brazilian businesses.",
   },
   {
     Icon: ProhibitIcon,
-    text: "Checkout by Polar. No traffic guaranteed.",
+    text: "Checkout by Stripe. No traffic guaranteed.",
   },
 ];
 

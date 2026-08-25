@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { CreditCardIcon, RowsIcon } from "@phosphor-icons/react/ssr";
+import { RowsIcon } from "@phosphor-icons/react/ssr";
+import StripeMark from "@thesvg/react/stripe";
 import { Nunito } from "next/font/google";
 import Link from "next/link";
 import { SiteNav } from "./site-nav";
@@ -41,8 +42,8 @@ export default function RootLayout({
           {children}
           <footer className="site-footer">
             <p className="with-icon">
-              <CreditCardIcon size={15} weight="bold" aria-hidden />
-              Checkout by Polar. No traffic guaranteed.
+              <StripeMark variant="mono" width={15} height={15} className="brand-mark brand-mark-mono" aria-hidden />
+              Checkout by Stripe. No traffic guaranteed.
             </p>
             <p className="footer-links">
               <Link href="/">Board</Link>

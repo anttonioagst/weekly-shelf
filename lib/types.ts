@@ -38,7 +38,7 @@ export type ShelfRow = {
 };
 
 export type CheckoutHold = {
-  polarCheckoutId: string;
+  checkoutId: string;
   weekId: string;
   identityKey: string;
   type: ListingType;
@@ -53,8 +53,8 @@ export type CheckoutHold = {
 };
 
 export type PaidMove = {
-  polarOrderId: string;
-  polarCheckoutId: string;
+  orderId: string;
+  checkoutId: string;
   weekId: string;
   identityKey: string;
   amountCents: number;

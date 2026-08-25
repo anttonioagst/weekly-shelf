@@ -8,19 +8,11 @@ import { TypeGlyph } from "./type-glyph";
 
 const URL_ERROR = "Use a live App Store, Play Store, or website URL.";
 const CHECKOUT_ERROR = "Checkout is not open yet.";
-const POLAR_ERROR =
-  "Polar refused this listing. We will not switch providers.";
 
 function previewTypeLabel(type: ListingType): string {
   if (type === "ios") return "iOS";
   if (type === "android") return "Android";
   return "Site";
-}
-
-function mapCheckoutError(status: number, data: { error?: string; polar?: string }): string {
-  if (status === 503 || data.polar) return POLAR_ERROR;
-  if (status === 502 || status >= 500) return CHECKOUT_ERROR;
-  return CHECKOUT_ERROR;
 }
 
 export function ClaimForm({ priceDollars }: { priceDollars: number }) {
@@ -65,7 +57,7 @@ export function ClaimForm({ priceDollars }: { priceDollars: number }) {
       });
       const data = await response.json();
       if (!response.ok) {
-        setError(mapCheckoutError(response.status, data));
+        setError(CHECKOUT_ERROR);
         return;
       }
       window.location.href = data.checkoutUrl;
