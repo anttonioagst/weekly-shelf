@@ -10,7 +10,6 @@ import {
 import { timeAgo } from "@/lib/time-ago";
 import type { ActivityItem, ListingType, ShelfRow } from "@/lib/types";
 import { ActivityRail } from "./activity-rail";
-import { BrandMark } from "./brand-mark";
 import { ListingIcon } from "./listing-icon";
 import { TypeTag } from "./type-tag";
 
@@ -51,34 +50,30 @@ export function ShelfBoard({
             <PulseIcon size={13} weight="bold" aria-hidden />
             Live shelf
           </p>
-          <h2>This week</h2>
+          <h2>Latest paid move wins</h2>
         </div>
-        {rows.length > 0 ? (
-          <span className="shelf-count">{visible.length} apps</span>
-        ) : null}
+        <div className="shelf-tools">
+          {rows.length > 0 ? (
+            <span className="shelf-count">{visible.length} apps</span>
+          ) : null}
+          {rows.length > 0 ? (
+            <label className="shelf-filter">
+              <span className="sr-only">Catalog</span>
+              <SquaresFourIcon size={14} weight="bold" aria-hidden />
+              <select
+                value={filter}
+                onChange={(event) => setFilter(event.target.value as Filter)}
+              >
+                {FILTERS.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          ) : null}
+        </div>
       </div>
-
-      {rows.length > 0 ? (
-        <div className="tag-bar" role="tablist" aria-label="Catalog">
-          {FILTERS.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              role="tab"
-              aria-selected={filter === item.id}
-              className={filter === item.id ? "tag-pill on" : "tag-pill"}
-              onClick={() => setFilter(item.id)}
-            >
-              {item.id === "all" ? (
-                <SquaresFourIcon size={15} weight="bold" aria-hidden />
-              ) : (
-                <BrandMark type={item.id} size={15} tone="color" />
-              )}
-              {item.label}
-            </button>
-          ))}
-        </div>
-      ) : null}
 
       {rows.length === 0 ? (
         <div className="empty">

@@ -23,7 +23,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Weekly shelf",
   description:
-    "Pay the current price. Your app or site goes to #1 this week. Next move costs $1 more. Resets Monday 00:00 UTC. No clicks, SEO, or installs guaranteed.",
+    "A weekly shelf for App Store apps, Play Store apps, and sites. Pay the current price. Take #1 this week. Next move costs $1 more. Resets Monday 00:00 UTC. No clicks, SEO, or installs guaranteed.",
 };
 
 export default function RootLayout({
@@ -34,17 +34,17 @@ export default function RootLayout({
   return (
     <html lang="en" className={nunito.variable}>
       <body>
+        <header className="site-header">
+          <Link href="/" className="wordmark">
+            <RowsIcon size={18} weight="bold" aria-hidden />
+            Weekly shelf
+          </Link>
+          <div className="header-end">
+            <VisitorCount />
+            <SiteNav />
+          </div>
+        </header>
         <main>
-          <header className="site-header">
-            <Link href="/" className="wordmark">
-              <RowsIcon size={18} weight="bold" aria-hidden />
-              Weekly shelf
-            </Link>
-            <div className="header-end">
-              <VisitorCount />
-              <SiteNav />
-            </div>
-          </header>
           {children}
           <footer className="site-footer">
             <p className="with-icon">
