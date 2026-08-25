@@ -1,9 +1,17 @@
 "use client";
 
 import { Fragment, useState } from "react";
+import {
+  ArrowSquareOutIcon,
+  PulseIcon,
+  SquaresFourIcon,
+  TrayIcon,
+} from "@phosphor-icons/react/ssr";
 import { timeAgo } from "@/lib/time-ago";
 import type { ActivityItem, ListingType, ShelfRow } from "@/lib/types";
 import { ActivityRail } from "./activity-rail";
+import { BrandMark } from "./brand-mark";
+import { ListingIcon } from "./listing-icon";
 import { TypeTag } from "./type-tag";
 
 const BANDS = [
@@ -39,7 +47,10 @@ export function ShelfBoard({
     <section className="shelf">
       <div className="shelf-head">
         <div className="shelf-titles">
-          <p className="shelf-kicker">Live shelf</p>
+          <p className="shelf-kicker with-icon">
+            <PulseIcon size={13} weight="bold" aria-hidden />
+            Live shelf
+          </p>
           <h2>This week</h2>
         </div>
         {rows.length > 0 ? (
@@ -58,6 +69,11 @@ export function ShelfBoard({
               className={filter === item.id ? "tag-pill on" : "tag-pill"}
               onClick={() => setFilter(item.id)}
             >
+              {item.id === "all" ? (
+                <SquaresFourIcon size={15} weight="bold" aria-hidden />
+              ) : (
+                <BrandMark type={item.id} size={15} tone="color" />
+              )}
               {item.label}
             </button>
           ))}
@@ -65,9 +81,10 @@ export function ShelfBoard({
       ) : null}
 
       {rows.length === 0 ? (
-        <p className="empty">
-          The shelf is empty. First move is $1.
-        </p>
+        <div className="empty">
+          <TrayIcon size={40} weight="duotone" aria-hidden />
+          <p>The shelf is empty. First move is $1.</p>
+        </div>
       ) : (
         <div className="shelf-list">
           {lead ? <FeaturedRow row={lead} /> : null}
@@ -103,28 +120,27 @@ function RowMeta({ row }: { row: ShelfRow }) {
   );
 }
 
+function OpenMark() {
+  return (
+    <span className="meta open">
+      <span className="open-label">Open</span>
+      <ArrowSquareOutIcon size={14} weight="bold" aria-hidden />
+    </span>
+  );
+}
+
 function FeaturedRow({ row }: { row: ShelfRow }) {
   return (
     <a className="featured" href={row.url} rel="noreferrer">
       <div className="featured-line">
         <span className="rank">{row.rank}</span>
-        {row.iconUrl ? (
-          <img
-            className="featured-icon"
-            src={row.iconUrl}
-            alt=""
-            width={64}
-            height={64}
-          />
-        ) : (
-          <span className="featured-icon icon-well" aria-hidden="true" />
-        )}
+        <ListingIcon className="featured-icon" src={row.iconUrl} size={64} />
         <span className="featured-text">
           <strong>{row.name}</strong>
           {row.blurb ? <span className="blurb">{row.blurb}</span> : null}
           <RowMeta row={row} />
         </span>
-        <span className="meta open">Open</span>
+        <OpenMark />
       </div>
       {row.screenshotUrl ? (
         <img className="featured-shot" src={row.screenshotUrl} alt="" />
@@ -137,11 +153,7 @@ function MidRow({ row }: { row: ShelfRow }) {
   return (
     <a className="mid" href={row.url} rel="noreferrer">
       <span className="rank">{row.rank}</span>
-      {row.iconUrl ? (
-        <img src={row.iconUrl} alt="" width={52} height={52} />
-      ) : (
-        <span className="mid-icon icon-well" aria-hidden="true" />
-      )}
+      <ListingIcon className="mid-icon" src={row.iconUrl} size={52} />
       <span className="mid-text">
         <strong>{row.name}</strong>
         {row.blurb ? <span className="blurb">{row.blurb}</span> : null}
@@ -156,17 +168,13 @@ function CompactRow({ row }: { row: ShelfRow }) {
   return (
     <a className="row" href={row.url} rel="noreferrer">
       <span className="rank">{row.rank}</span>
-      {row.iconUrl ? (
-        <img src={row.iconUrl} alt="" width={44} height={44} />
-      ) : (
-        <span className="row-icon icon-well" aria-hidden="true" />
-      )}
+      <ListingIcon className="row-icon" src={row.iconUrl} size={44} />
       <span className="row-text">
         <strong>{row.name}</strong>
         {row.blurb ? <span className="blurb">{row.blurb}</span> : null}
         <RowMeta row={row} />
       </span>
-      <span className="meta open">Open</span>
+      <OpenMark />
     </a>
   );
 }

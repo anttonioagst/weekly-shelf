@@ -20,7 +20,7 @@ describe("store + apply", () => {
     const weekId = weekIdAt(new Date("2026-08-21T12:00:00.000Z"));
     const board = emptyBoard(weekId);
     board.checkouts.c1 = {
-      polarCheckoutId: "c1",
+      checkoutId: "c1",
       weekId,
       identityKey: "web:https://example.com",
       type: "site",
@@ -52,7 +52,7 @@ describe("store + apply", () => {
     const weekId = weekIdAt(now);
     const board = emptyBoard(weekId);
     board.checkouts.c1 = {
-      polarCheckoutId: "c1",
+      checkoutId: "c1",
       weekId,
       identityKey: "web:https://late.example",
       type: "site",

@@ -1,8 +1,10 @@
+import { ArrowLeftIcon } from "@phosphor-icons/react/ssr";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { typeLabel } from "@/lib/identity";
 import { currentWeekSnapshot } from "@/lib/shelf";
 import type { ListingType, ShelfRow } from "@/lib/types";
+import { BrandMark } from "../brand-mark";
 import { TypeTag } from "../type-tag";
 
 export const dynamic = "force-dynamic";
@@ -33,7 +35,10 @@ export default function CategoriesPage() {
         ))}
       </div>
       <p className="back-home">
-        <Link href="/">Back home</Link>
+        <Link href="/">
+          <ArrowLeftIcon size={16} weight="bold" aria-hidden />
+          Back home
+        </Link>
       </p>
     </article>
   );
@@ -49,6 +54,7 @@ function CategoryBlock({
   return (
     <section className="category-card">
       <div className="category-head">
+        <BrandMark type={type} size={22} tone="color" />
         <TypeTag type={type} />
         <strong>{typeLabel(type)}</strong>
         <span className="shelf-count">{rows.length} apps</span>

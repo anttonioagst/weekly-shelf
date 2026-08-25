@@ -1,5 +1,5 @@
 import { applyPaidOrder } from "@/lib/apply";
-import { polarClient } from "@/lib/polar";
+import { isSessionPaid, orderIdFromSession, stripeClient } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
@@ -13,32 +13,31 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "checkoutId required" }, { status: 400 });
   }
 
-  const polar = polarClient();
-  const checkout = await polar.checkouts.get({ id: checkoutId });
-  if (checkout.status !== "succeeded") {
+  const stripe = stripeClient();
+  const session = await stripe.checkout.sessions.retrieve(checkoutId);
+  if (!isSessionPaid(session)) {
     return NextResponse.json({
-      status: checkout.status,
+      status: session.payment_status,
       applied: false,
     });
   }
 
-  const pages = await polar.orders.list({ checkoutId, limit: 1 });
-  const order = pages.result.items[0];
-  if (!order?.id) {
+  const orderId = orderIdFromSession(session);
+  if (!orderId) {
     return NextResponse.json({
-      status: checkout.status,
+      status: session.payment_status,
       applied: false,
       outcome: "pending_order",
     });
   }
 
   const outcome = await applyPaidOrder({
-    checkoutId,
-    orderId: order.id,
+    checkoutId: session.id,
+    orderId,
   });
 
   return NextResponse.json({
-    status: checkout.status,
+    status: session.payment_status,
     applied: outcome === "applied" || outcome === "already",
     outcome,
   });

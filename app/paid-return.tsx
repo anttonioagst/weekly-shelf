@@ -31,7 +31,7 @@ export function PaidReturn() {
         router.refresh();
         return;
       }
-      setNote("Waiting for Polar to confirm the payment.");
+      setNote("Waiting for Stripe to confirm the payment.");
     })();
     return () => {
       cancelled = true;

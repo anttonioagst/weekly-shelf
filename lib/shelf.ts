@@ -1,5 +1,6 @@
+import { withFoundingListing } from "./founding";
 import { recentActivity, shelfRows, type WeekBoard } from "./fulfill";
-import { loadBoard } from "./store";
+import { loadBoard, saveBoard } from "./store";
 import { nextMondayUtc, priceCents, priceDollars, weekIdAt } from "./week";
 
 export function currentWeekSnapshot(now = new Date()): {
@@ -13,7 +14,9 @@ export function currentWeekSnapshot(now = new Date()): {
   board: WeekBoard;
 } {
   const weekId = weekIdAt(now);
-  const board = loadBoard(weekId);
+  const loaded = loadBoard(weekId);
+  const board = withFoundingListing(loaded, now);
+  if (board !== loaded) saveBoard(board);
   return {
     weekId,
     moveCount: board.moveCount,

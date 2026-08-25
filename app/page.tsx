@@ -1,3 +1,4 @@
+import { ArrowFatLineUpIcon, CurrencyDollarIcon, TrayIcon } from "@phosphor-icons/react/ssr";
 import { Suspense } from "react";
 import { currentWeekSnapshot } from "@/lib/shelf";
 import { ClaimForm } from "./claim-form";
@@ -23,7 +24,10 @@ export default function HomePage() {
 
       <section className="composer">
         <div className="composer-price">
-          <p className="kicker">Current price</p>
+          <p className="kicker with-icon">
+            <CurrencyDollarIcon size={14} weight="bold" aria-hidden />
+            Current price
+          </p>
           <div className="composer-price-row">
             <p className="price">${snap.priceDollars}</p>
             <p className="meta">one payment · ${snap.priceDollars} = $1 + {snap.moveCount} moves</p>
@@ -35,9 +39,15 @@ export default function HomePage() {
 
       <div className="composer-helpers">
         {empty ? (
-          <p className="meta">The shelf is empty. First move is $1.</p>
+          <p className="meta with-icon">
+            <TrayIcon size={14} weight="bold" aria-hidden />
+            The shelf is empty. First move is $1.
+          </p>
         ) : null}
-        <p className="meta">Pay again to move it back to the top.</p>
+        <p className="meta with-icon">
+          <ArrowFatLineUpIcon size={14} weight="bold" aria-hidden />
+          Pay again to move it back to the top.
+        </p>
       </div>
 
       <Suspense>

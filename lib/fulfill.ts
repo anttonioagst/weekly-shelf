@@ -65,7 +65,7 @@ export function fulfillOrder(board: WeekBoard, input: FulfillInput): {
 
   if (!isHoldValid(new Date(checkout.holdExpiresAt), input.now)) {
     const next = cloneBoard(board);
-    next.checkouts[checkout.polarCheckoutId] = {
+    next.checkouts[checkout.checkoutId] = {
       ...checkout,
       status: "expired_ignored",
     };
@@ -74,8 +74,8 @@ export function fulfillOrder(board: WeekBoard, input: FulfillInput): {
 
   const next = cloneBoard(board);
   const move: PaidMove = {
-    polarOrderId: input.orderId,
-    polarCheckoutId: checkout.polarCheckoutId,
+    orderId: input.orderId,
+    checkoutId: checkout.checkoutId,
     weekId: checkout.weekId,
     identityKey: checkout.identityKey,
     amountCents: checkout.quotedCents,
@@ -84,7 +84,7 @@ export function fulfillOrder(board: WeekBoard, input: FulfillInput): {
   };
   next.moves[input.orderId] = move;
   next.moveCount += 1;
-  next.checkouts[checkout.polarCheckoutId] = { ...checkout, status: "fulfilled" };
+  next.checkouts[checkout.checkoutId] = { ...checkout, status: "fulfilled" };
   next.listings[checkout.identityKey] = {
     identityKey: checkout.identityKey,
     type: checkout.type,

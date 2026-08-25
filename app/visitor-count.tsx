@@ -1,3 +1,4 @@
+import { ClockCountdownIcon, UsersThreeIcon } from "@phosphor-icons/react/ssr";
 import Link from "next/link";
 import { headers } from "next/headers";
 import { touchVisit } from "@/lib/visits";
@@ -13,13 +14,16 @@ export async function VisitorCount() {
   return (
     <p className="visitors">
       <span className="visitors-dot" aria-hidden="true" />
+      <UsersThreeIcon size={14} weight="bold" aria-hidden />
       <strong>{snap.online.toLocaleString("en-US")}</strong>
-      <span> online</span>
-      <span className="visitors-sep">·</span>
-      <Link href="/stats">
-        <strong>{snap.last12h.toLocaleString("en-US")}</strong>
-        <span> visitors in the last 12h</span>
-      </Link>
+        <span> online</span>
+        <span className="visitors-sep">·</span>
+        <Link href="/stats">
+          <ClockCountdownIcon size={14} weight="bold" aria-hidden />
+          <strong>{snap.last12h.toLocaleString("en-US")}</strong>
+          <span className="visitors-long"> visitors in the last 12h</span>
+          <span className="visitors-short"> 12h</span>
+        </Link>
     </p>
   );
 }
