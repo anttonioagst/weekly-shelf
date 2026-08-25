@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import { useState } from "react";
 import {
   ArrowSquareOutIcon,
   PulseIcon,
@@ -86,20 +86,26 @@ export function ShelfBoard({
           <p>The shelf is empty. First move is $1.</p>
         </div>
       ) : (
-        <div className="shelf-list">
-          {lead ? <FeaturedRow row={lead} /> : null}
+        <ol className="shelf-list">
+          {lead ? (
+            <li>
+              <FeaturedRow row={lead} />
+            </li>
+          ) : null}
           {mids.map((row) => (
-            <MidRow key={row.identityKey} row={row} />
+            <li key={row.identityKey}>
+              <CompactRow row={row} />
+            </li>
           ))}
-          <ActivityRail items={activity} />
           {compact.map((row) => (
-            <Fragment key={row.identityKey}>
+            <li key={row.identityKey}>
               <BandMark rank={row.rank} total={rows.length} />
               <CompactRow row={row} />
-            </Fragment>
+            </li>
           ))}
-        </div>
+        </ol>
       )}
+      {rows.length > 0 ? <ActivityRail items={activity} /> : null}
     </section>
   );
 }
@@ -145,21 +151,6 @@ function FeaturedRow({ row }: { row: ShelfRow }) {
       {row.screenshotUrl ? (
         <img className="featured-shot" src={row.screenshotUrl} alt="" />
       ) : null}
-    </a>
-  );
-}
-
-function MidRow({ row }: { row: ShelfRow }) {
-  return (
-    <a className="mid" href={row.url} rel="noreferrer">
-      <span className="rank">{row.rank}</span>
-      <ListingIcon className="mid-icon" src={row.iconUrl} size={52} />
-      <span className="mid-text">
-        <strong>{row.name}</strong>
-        {row.blurb ? <span className="blurb">{row.blurb}</span> : null}
-        <RowMeta row={row} />
-      </span>
-      <span className="mid-amount">${row.lastAmountCents / 100}</span>
     </a>
   );
 }

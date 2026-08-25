@@ -25,7 +25,7 @@ export default function CategoriesPage() {
         Catalog: a live App Store app, Play Store app, or public website.
         TestFlight-only builds and chat invites are out.
       </p>
-      <div className="category-grid">
+      <div className="doc-panel category-panel">
         {TYPES.map((type) => (
           <CategoryBlock
             key={type}
@@ -52,7 +52,7 @@ function CategoryBlock({
   rows: ShelfRow[];
 }) {
   return (
-    <section className="category-card">
+    <section className="category-block">
       <div className="category-head">
         <BrandMark type={type} size={22} tone="color" />
         <TypeTag type={type} />

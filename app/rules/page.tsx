@@ -79,20 +79,24 @@ export default function RulesPage() {
       <p className="lede">
         How the shelf works. Nothing here is a traffic promise.
       </p>
-      <div className="rules-grid">
-        {RULES.map((card) => (
-          <div className="rule-card" key={card.text}>
-            <card.Icon className="card-icon" size={28} weight="duotone" aria-hidden />
-            {card.text}
-          </div>
+      <ol className="doc-panel">
+        {RULES.map((row, index) => (
+          <li className="doc-row" key={row.text}>
+            <span className="doc-index">{String(index + 1).padStart(2, "0")}</span>
+            <row.Icon size={18} weight="bold" aria-hidden />
+            <span>{row.text}</span>
+          </li>
         ))}
-        {FAQS.map((card) => (
-          <div className="faq-card" key={card.title}>
-            <h3 className="with-icon">
-              <card.Icon size={18} weight="duotone" aria-hidden />
-              {card.title}
-            </h3>
-            <p>{card.body}</p>
+      </ol>
+      <h2 className="doc-sub">FAQ</h2>
+      <div className="doc-panel">
+        {FAQS.map((row) => (
+          <div className="doc-row faq-row" key={row.title}>
+            <row.Icon size={18} weight="bold" aria-hidden />
+            <div>
+              <h3>{row.title}</h3>
+              <p>{row.body}</p>
+            </div>
           </div>
         ))}
       </div>

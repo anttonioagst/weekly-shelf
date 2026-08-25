@@ -16,7 +16,7 @@ npm test
 npm run dev
 ```
 
-Webhook: `POST /api/webhook/stripe` (`checkout.session.completed`, `checkout.session.async_payment_succeeded`, `charge.refunded`). Local return also confirms via `/?checkout_id=…` after Stripe redirects.
+Webhook: `POST /api/webhook/stripe` (`checkout.session.completed`, `checkout.session.async_payment_succeeded`, `charge.refunded`). Checkout returns to the host you opened. Local return also confirms via `/?checkout_id=…`.
 
 ## Rules (product)
 

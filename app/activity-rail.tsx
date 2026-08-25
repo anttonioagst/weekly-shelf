@@ -12,11 +12,11 @@ export function ActivityRail({ items }: { items: ActivityItem[] }) {
         <PulseIcon size={15} weight="fill" aria-hidden />
         Latest activity
       </p>
-      <div className="activity-rail">
+      <div className="activity-list">
         {items.map((item) => (
           <a
             key={`${item.identityKey}:${item.paidAt}`}
-            className="activity-card"
+            className="activity-row"
             href={item.url}
             rel="noreferrer"
           >
