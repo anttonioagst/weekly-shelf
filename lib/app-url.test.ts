@@ -22,6 +22,19 @@ describe("publicAppUrl", () => {
     delete process.env.APP_URL;
   });
 
+  it("prefers x-forwarded-host over Host", () => {
+    process.env.APP_URL = "https://old-design.example";
+    const url = publicAppUrl(
+      request({
+        host: "internal.example",
+        "x-forwarded-host": "weekly-shelf.vercel.app",
+        "x-forwarded-proto": "https",
+      }),
+    );
+    assert.equal(url, "https://weekly-shelf.vercel.app");
+    delete process.env.APP_URL;
+  });
+
   it("uses http on localhost", () => {
     const url = publicAppUrl(request({ host: "localhost:3000" }));
     assert.equal(url, "http://localhost:3000");

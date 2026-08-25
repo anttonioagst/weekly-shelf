@@ -5,7 +5,7 @@ function firstHeader(request: Request, name: string): string | null {
   return first || null;
 }
 
-/** URL the browser is on — never a stale APP_URL from an old Vercel deploy. */
+/** Host the visitor opened — never a stale APP_URL from an old Vercel deploy. */
 export function publicAppUrl(request: Request): string {
   const host = firstHeader(request, "x-forwarded-host") ?? firstHeader(request, "host");
   const protoHeader = firstHeader(request, "x-forwarded-proto");
